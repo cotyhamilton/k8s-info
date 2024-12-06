@@ -1,4 +1,4 @@
-name: ci
+name: helm ci
 
 on:
   push:
