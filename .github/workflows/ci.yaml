@@ -33,8 +33,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Package and push helm chart
+      - name: Publish helm chart
         run: |
           helm package ./charts/k8s-info --version $CHART_VERSION
-          helm push ./k8s-info-chart-${CHART_VERSION}.tgz \
+          helm push ./k8s-info-${CHART_VERSION}.tgz \
             oci://ghcr.io/${{ github.repository }}/charts
