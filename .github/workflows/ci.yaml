@@ -21,11 +21,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set environment variables
-        id: set-variables
-        run: |
-          echo "CHART_VERSION=$(yq -r .version ./charts/k8s-info/Chart.yaml)" >> "$GITHUB_ENV"
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -35,6 +30,8 @@ jobs:
 
       - name: Publish helm chart
         run: |
+          CHART_VERSION=$(yq -r .version ./charts/k8s-info/Chart.yaml)
+
           helm package ./charts/k8s-info --version $CHART_VERSION
           helm push ./k8s-info-${CHART_VERSION}.tgz \
             oci://ghcr.io/${{ github.repository }}/charts
